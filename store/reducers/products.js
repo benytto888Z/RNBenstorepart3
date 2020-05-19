@@ -39,6 +39,7 @@ export default (state = initialState,action)=>{
                 state.userProducts[productIndex].price
                 );
         const updatedUserProducts =[...state.userProducts];
+
         updatedUserProducts[productIndex] = updatedProduct;
 
         // find also if exist id of the updating product in availableProduct

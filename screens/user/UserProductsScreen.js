@@ -10,7 +10,7 @@ import * as ProductsActions from "../../store/actions/products";
 const UserProductsScreen = props =>{
     const userProducts = useSelector(state=>state.products.userProducts)
     const dispatch=useDispatch();
-    const editProducthandler=(id)=>{
+    const editProductHandler=(id)=>{
         props.navigation.navigate('EditProduct',{productId:id});
     };
 
@@ -29,11 +29,11 @@ const UserProductsScreen = props =>{
         renderItem={itemData=><ProductItem
             product={itemData.item}
             onSelect={()=>{
-                editProducthandler(itemData.item.id)
+                editProductHandler(itemData.item.id)
             }}
         >
             <Button color={Colors.primary} title="Modifier" onPress={()=>{
-                editProducthandler(itemData.item.id)
+                editProductHandler(itemData.item.id)
             }
             }
             />

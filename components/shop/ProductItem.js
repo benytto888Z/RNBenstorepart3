@@ -1,8 +1,6 @@
 import React from 'react';
 import {Text, View, Image, TouchableOpacity, Platform, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import Card from '../UI/Card';
-
-
 const ProductItem = props =>{
     let TouchableCmp = TouchableOpacity;
     if(Platform.OS ==='android' && Platform.Version >= 21){
@@ -33,7 +31,6 @@ const ProductItem = props =>{
 </Card>
     )
 };
-
 const styles = StyleSheet.create({
     product:{
         height:300,
