@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button, FlatList, Platform,Alert} from 'react-native';
+import React,{useState,useEffect,useCallback} from 'react';
+import {Button, FlatList, Platform,Alert,View,ActivityIndicator,StyleSheet} from 'react-native';
 import {useSelector,useDispatch} from "react-redux";
 import ProductItem from "../../components/shop/ProductItem";
 import {HeaderButtons,Item} from "react-navigation-header-buttons";
@@ -8,8 +8,41 @@ import Colors from "../../constants/Colors";
 import * as ProductsActions from "../../store/actions/products";
 
 const UserProductsScreen = props =>{
+    const [isLoading,setIsLoading]=useState(false);
+    const [error,setError]=useState(false);
+
     const userProducts = useSelector(state=>state.products.userProducts)
     const dispatch=useDispatch();
+
+    const loadUserProducts=useCallback(async()=>{
+        setError(null);
+        setIsLoading(true);
+        try{
+             await dispatch(ProductsActions.fetchProducts());
+        }catch(err){
+            setError(err.message);
+        }
+       setIsLoading(false);
+    },[dispatch,setError,setIsLoading]);
+
+
+      // the navigation listener
+      useEffect(()=>{
+        const willFocusSub =  props.navigation.addListener('willFocus',loadUserProducts) // didFocus , willBlur,didBlur
+        return ()=>{
+          willFocusSub.remove();
+        };
+       },[loadUserProducts])
+
+       //------------------------------------
+
+        useEffect(()=>{
+            loadUserProducts();
+        },[dispatch,loadUserProducts]);
+
+
+    //-----------------------------------------
+
     const editProductHandler=(id)=>{
         props.navigation.navigate('EditProduct',{productId:id});
     };
@@ -23,6 +56,39 @@ const UserProductsScreen = props =>{
                  }},
             ]);
     };
+
+
+    //---------------------------------------
+
+    if(error){
+        return (
+            <View style={styles.centered}>
+                <Text>Une erreur s'est produite !</Text>
+                <Button title="Veuillez réessayer" color={Colors.primary}/>
+            </View>
+        )
+    }
+
+    //------------------------------------------
+
+    if(isLoading){
+        return (
+        <View style={styles.centered}>
+            <ActivityIndicator size='large' color={Colors.primary}/>
+        </View>
+        )
+    }
+
+    if(!isLoading && userProducts.length === 0){
+        return (
+            <View style={styles.centered}>
+                <Text>Pas de produit dans la base</Text>
+            </View>
+        )
+    }
+
+    //----------------------------------------------
+
     return <FlatList
         data={userProducts}
         keyExtractor={item=>item.id}
@@ -46,6 +112,8 @@ const UserProductsScreen = props =>{
      />
 }
 
+    //------------------------------------------------
+
 UserProductsScreen.navigationOptions=(navData)=> {
     return {
         headerTitle: 'Produits',
@@ -65,5 +133,9 @@ UserProductsScreen.navigationOptions=(navData)=> {
         </HeaderButtons>,
     }
 }
+
+const styles = StyleSheet.create({
+    centered:{flex:1,justifyContent:'center',alignItems:'center'}
+    });
 
 export default UserProductsScreen;
