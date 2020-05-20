@@ -7,29 +7,38 @@ export const SET_PRODUCTS    ='SET_PRODUCTS';
 
 export const fetchProducts = () =>{
  return async dispatch => {
-     //any async code here
-     const response = await fetch('https://rn-benstore.firebaseio.com/products.json'
-        // method :'GET', il y a GET par défaut;
-     );
-     const resData = await response.json();
-     //console.log(resData);
-     const loadedProducts = [];
+     try{
+         //any async code here
+         const response = await fetch('https://rn-benstore.firebaseio.com/products.json')
+             // method :'GET', il y a GET par défaut;
 
-     for(const key in resData){
-         loadedProducts.push(new Product(
-             key,
-             'u1',
-             resData[key].title,
-             resData[key].imageUrl,
-             resData[key].description,
-             resData[key].price
-             )
-         );
+         if(!response.ok){
+             throw new Error('Something went wrong ! ');
+         }
+
+         const resData = await response.json();
+         //console.log(resData);
+         const loadedProducts = [];
+
+         for(const key in resData){
+             loadedProducts.push(new Product(
+                 key,
+                 'u1',
+                 resData[key].title,
+                 resData[key].imageUrl,
+                 resData[key].description,
+                 resData[key].price
+                 )
+             );
+         }
+         dispatch({
+             type:SET_PRODUCTS,
+             products:loadedProducts
+         })
+     }catch (error) {
+         // send to custom analytics server
+         throw error;
      }
-    dispatch({
-        type:SET_PRODUCTS,
-        products:loadedProducts
-    })
  };
 };
 
