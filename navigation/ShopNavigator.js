@@ -2,7 +2,7 @@ import React from "react";
 import {Platform} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer,createSwitchNavigator } from 'react-navigation';
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
@@ -13,6 +13,10 @@ import Colors from "../constants/Colors";
 import OrdersScreen from "../screens/shop/OrderScreen";
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
+
+import AuthScreen from '../screens/user/AuthScreen';
+
+//--------------------------------------defaultNavOptions 
 
 const defaultNavOptions = {
         headerStyle:{
@@ -27,6 +31,8 @@ const defaultNavOptions = {
         headerTintColor:Platform.OS === 'android' ? 'white' : Colors.primary
     }
 
+
+//------------------------------------------------ProductsStackNavigator
 
 const ProductsStackNavigator=createStackNavigator({
 ProductsOverview:ProductsOverviewScreen,
@@ -44,6 +50,9 @@ Cart:CartScreen,
     defaultNavigationOptions: defaultNavOptions
 })
 
+
+//-------------------------------------------------OrdersStackNavigator
+
 const OrdersStackNavigator = createStackNavigator({
     Orders:OrdersScreen
 },{
@@ -56,6 +65,8 @@ const OrdersStackNavigator = createStackNavigator({
     },
     defaultNavigationOptions: defaultNavOptions
 })
+
+//--------------------------------------------------AdminStackNavigator
 
 
 const AdminStackNavigator = createStackNavigator({
@@ -72,6 +83,9 @@ const AdminStackNavigator = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 })
 
+
+//--------------------------------------------------ShopDrawerNavigator
+
 const ShopDrawerNavigator=createDrawerNavigator({
 Produits:ProductsStackNavigator,
 Commandes:OrdersStackNavigator,
@@ -82,4 +96,21 @@ Admin:AdminStackNavigator
     }
 })
 
-export default createAppContainer(ShopDrawerNavigator);
+//------------------------------------------------------AuthNavigator
+
+const AuthNavigator=createStackNavigator({
+Auth:AuthScreen
+},{
+    defaultNavigationOptions : defaultNavOptions
+});
+
+//--------------------------------------------------------MainNavigator
+
+const MainNavigator = createSwitchNavigator({
+ Auth:AuthNavigator,
+ Shop:ShopDrawerNavigator
+
+
+});
+
+export default createAppContainer(MainNavigator);
