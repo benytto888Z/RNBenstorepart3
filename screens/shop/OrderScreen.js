@@ -91,7 +91,7 @@ const OrdersScreen = props => {
 
 OrdersScreen.navigationOptions = navData => {
     return {
-        headerTitle: 'Tes Commandes',
+        headerTitle: 'Mes Commandes',
         headerLeft: () => <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item title='Menu' iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                 onPress={() => {

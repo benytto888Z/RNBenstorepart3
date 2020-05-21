@@ -1,13 +1,16 @@
 import React from "react";
-import {Platform} from 'react-native';
+import {Button,View,Platform,SafeAreaView} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer,createSwitchNavigator } from 'react-navigation';
+import { createDrawerNavigator,DrawerItems  } from 'react-navigation-drawer';
+import { createAppContainer,createSwitchNavigator} from 'react-navigation';
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import StartupScreen from "../screens/StartupScreen";
 import {Ionicons} from "@expo/vector-icons";
+
+import {useDispatch} from 'react-redux';
+import * as AuthActions from '../store/actions/auth';
 
 
 import Colors from "../constants/Colors";
@@ -94,6 +97,22 @@ Admin:AdminStackNavigator
 },{
     contentOptions:{
         activeTintColor:Colors.primary
+    },
+    contentComponent:props => {
+        const dispatch = useDispatch();
+    return <View style={{flex:1, paddingTop:20}}>
+                <SafeAreaView forceInset={{top:'always',horizontal:'never'}}>
+                    <DrawerItems {...props}/>
+                    <Button title="Déconnexion" color={Colors.primary}
+                        onPress={()=>{
+                            dispatch(AuthActions.logout());//this will automatically
+                            // go to the NavigationContainer and by useeffect navRef
+                            // navigate towards Authscreen
+                           // props.navigation.navigate('Auth');
+                        }}
+                    />
+                </SafeAreaView>
+          </View>
     }
 })
 

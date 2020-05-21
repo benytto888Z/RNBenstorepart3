@@ -117,7 +117,7 @@ const UserProductsScreen = props =>{
 
 UserProductsScreen.navigationOptions=(navData)=> {
     return {
-        headerTitle: 'Tes Produits',
+        headerTitle: 'Mes Produits',
         headerLeft: () => <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item title='Menu' iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                   onPress={() => {

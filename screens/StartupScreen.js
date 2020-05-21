@@ -6,7 +6,9 @@ import {useDispatch} from 'react-redux';
 import * as authActions from '../store/actions/auth';
 
 const StartupScreen = props =>{
+
   const dispatch = useDispatch();
+
   useEffect(()=>{
     const tryLogin=async ()=>{
       const userData = await AsyncStorage.getItem('userData');
@@ -23,18 +25,25 @@ const StartupScreen = props =>{
         return;
       }
 
+      const expirationTime = expirationDate.getTime() - new Date().getTime();
+
       props.navigation.navigate('Shop');
-      dispatch(authActions.authenticate(userId,token));
+      dispatch(authActions.authenticate(userId,token,expirationDate));
     }
     tryLogin();
   },[dispatch])
 
+
+  //------------------------------------------------
   return(
     <View style={styles.screen}>
       <ActivityIndicator size="large" color={Colors.primary}/>
     </View>
   )
 };
+
+ //-------------------------------------------------
+
 
 const styles = StyleSheet.create({
   screen:{
