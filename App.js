@@ -16,7 +16,8 @@ import ReduxThunk from 'redux-thunk';
 const rootReducer = combineReducers({
   products:productsReducer,
   cart:cartReducer,
-  orders:ordersReducer
+  orders:ordersReducer,
+  auth:authReducer
 });
 const store = createStore(rootReducer,applyMiddleware(ReduxThunk));
 

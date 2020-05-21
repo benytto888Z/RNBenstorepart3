@@ -1,12 +1,12 @@
-import PRODUCTS from "../../data/dummy-data";
+//import PRODUCTS from "../../data/dummy-data";
 import {CREATE_PRODUCT, DELETE_PRODUCT, SET_PRODUCTS, UPDATE_PRODUCT} from "../actions/products";
 import Product from "../../models/Product";
 
 const initialState = {
     // availableProducts : all products and also only the products which we didn't
     // create so that we can't buy our own product
-    availableProducts:PRODUCTS,
-    userProducts:PRODUCTS.filter(prod => prod.ownerId === 'u1')  // list of products we create with ownerId
+    availableProducts:[],
+    userProducts:[]  // list of products we create with ownerId
 };
 
 export default (state = initialState,action)=>{
@@ -14,12 +14,12 @@ export default (state = initialState,action)=>{
         case SET_PRODUCTS:
             return {
                 availableProducts: action.products,
-                userProducts: action.products.filter(prod => prod.ownerId === 'u1')
+                userProducts: action.userProducts
             };
         case CREATE_PRODUCT:
             const newProduct = new Product(
                 action.productData.id,
-                'u1',
+                action.productData.ownerId,
                 action.productData.title,
                 action.productData.imageUrl,
                 action.productData.description,

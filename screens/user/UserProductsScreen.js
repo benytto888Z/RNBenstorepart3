@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useCallback} from 'react';
-import {Button, FlatList, Platform,Alert,View,ActivityIndicator,StyleSheet} from 'react-native';
+import {Button,Text, FlatList, Platform,Alert,View,ActivityIndicator,StyleSheet} from 'react-native';
 import {useSelector,useDispatch} from "react-redux";
 import ProductItem from "../../components/shop/ProductItem";
 import {HeaderButtons,Item} from "react-navigation-header-buttons";
@@ -89,6 +89,7 @@ const UserProductsScreen = props =>{
 
     //----------------------------------------------
 
+
     return <FlatList
         data={userProducts}
         keyExtractor={item=>item.id}
@@ -116,7 +117,7 @@ const UserProductsScreen = props =>{
 
 UserProductsScreen.navigationOptions=(navData)=> {
     return {
-        headerTitle: 'Produits',
+        headerTitle: 'Tes Produits',
         headerLeft: () => <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item title='Menu' iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                   onPress={() => {

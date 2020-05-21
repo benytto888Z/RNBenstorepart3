@@ -68,7 +68,7 @@ const OrdersScreen = props => {
     if (!isLoading && orders.length === 0) {
         return (
             <View style={styles.centered}>
-                <Text>Aucun article commandé</Text>
+                <Text>Aucun article en commande</Text>
             </View>
         )
     }

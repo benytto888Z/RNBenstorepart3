@@ -4,10 +4,11 @@ export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDER = 'SET_ORDERS';
 
 export const fetchOrders = () =>{
-    return async dispatch =>{
+    return async (dispatch,getState) =>{
+        const userId = getState().auth.userId;
         try{
             //any async code here
-            const response = await fetch('https://rn-benstore.firebaseio.com/orders/u1.json')
+            const response = await fetch(`https://rn-benstore.firebaseio.com/orders/${userId}.json`)
                 // method :'GET', il y a GET par défaut;
    
             if(!response.ok){
@@ -37,9 +38,12 @@ export const fetchOrders = () =>{
 }
 
 export const addOrder = (cartItems,totalAmount)=>{
-    return async dispatch => {
+    return async (dispatch,getState) => {
         const date = new Date();
-        const response = await fetch('https://rn-benstore.firebaseio.com/orders/u1.json',{
+        const token = getState().auth.token;
+        const userId = getState().auth.userId;
+
+        const response = await fetch(`https://rn-benstore.firebaseio.com/orders/${userId}.json?auth=${token}`,{
             method :'POST',
             headers:{
                 'Content-Type':'application/json'
