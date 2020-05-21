@@ -6,6 +6,7 @@ import { createAppContainer,createSwitchNavigator } from 'react-navigation';
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
+import StartupScreen from "../screens/StartupScreen";
 import {Ionicons} from "@expo/vector-icons";
 
 
@@ -107,9 +108,9 @@ Auth:AuthScreen
 //--------------------------------------------------------MainNavigator
 
 const MainNavigator = createSwitchNavigator({
+ Startup:StartupScreen,   
  Auth:AuthNavigator,
  Shop:ShopDrawerNavigator
-
 
 });
 
